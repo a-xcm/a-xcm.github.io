@@ -49,6 +49,7 @@ const draw = () => {
 </script>
 
 <template>
+  <h1>This is my website</h1>
   <canvas ref="canvas" :width="500" :height="200"></canvas>
 </template>
 <style scoped>
