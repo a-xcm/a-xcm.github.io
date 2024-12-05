@@ -153,3 +153,46 @@ var climbStairs = function (n) {
 };
 
 console.log(climbStairs(2));
+
+/**
+ * 防抖 高频率触发的事件只执行一次
+ * @param {*} fn 
+ * @param {*} delay 
+ * @returns 
+ */
+function debounce(fn, delay) {
+    let timer = null
+    return function (...args) {
+        if (timer) clearTimeout(timer)
+        timer = setTimeout(() => {
+            fn.apply(this, args)
+        }, delay)
+    }
+}
+/**
+ * 节流 高频率触发的事件 在指定单位时间内，只执行第一次
+ * @param {*} fn 
+ * @param {*} delay 
+ * @returns 
+ */
+function throttle(fn, delay) {
+    let timer = null
+    return function (...args) {
+        if (timer) return
+        timer = setTimeout(() => {
+            fn.apply(this, args)
+            timer = null
+        }, delay)
+    }
+}
+
+export { 
+    bubbleSort, 
+    selectionSort, 
+    insertionSort, 
+    mergeSort, 
+    quickSort, 
+    fib, 
+    debounce, 
+    throttle 
+}

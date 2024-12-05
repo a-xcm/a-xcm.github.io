@@ -1,59 +1,76 @@
 <script setup>
-import {ref, onMounted } from 'vue';
-const canvas = ref(null)
-var raf;
-var ctx;
-var ball = {
-  x: 100,
-  y: 100,
-  vx: 5,
-  vy: 2,
-  radius: 25,
-  color: "blue",
-  draw: function () {
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true);
-    ctx.closePath();
-    ctx.fillStyle = this.color;
-    ctx.fill();
-  },
-};
-onMounted(() => {
-  ctx = canvas.value.getContext('2d')
-  ball.draw()
-  canvas.value.addEventListener("mouseover", function (e) {
-  raf = window.requestAnimationFrame(draw);
-});
-
-canvas.value.addEventListener("mouseout", function (e) {
-  window.cancelAnimationFrame(raf);
-});
+import { ref, onMounted, reactive, h,watch } from 'vue';
+import BaseTable from '@/components/BaseTable.vue'
+const tableData = ref([])
+const columns = ref([])
+const options = reactive({paginationConfig:{}})
+const listeners = reactive({
+    'cell-click': (row, colum) => {
+        console.log('row click', row, colum)
+        options.border = options.hasOwnProperty('border') ? !options.border : false
+        
+    }
 })
-const draw = () => {
-  // ctx.clearRect(0, 0, canvas.value.width, canvas.value.height);
-  ctx.fillStyle = "rgba(255, 255, 255, 0.3)";
-  ctx.fillRect(0, 0, canvas.value.width, canvas.value.height);
-  ball.draw();
-  ball.x += ball.vx;
-  ball.y += ball.vy;
-  ball.vy *= 0.99;
-  ball.vy += 0.25;
-  if (ball.y + ball.vy > canvas.value.height || ball.y + ball.vy < 0) {
-    ball.vy = -ball.vy;
-  }
-  if (ball.x + ball.vx > canvas.value.width || ball.x + ball.vx < 0) {
-    ball.vx = -ball.vx;
-  }
-  raf = window.requestAnimationFrame(draw);
-}
+onMounted(() => {
+    tableData.value = [
+        { id: 1, name: 'John', age: 20 },
+        { id: 2, name: 'Mary', age: 21 },
+        { id: 3, name: 'Bob', age: 22 },
+    ]
+    columns.value = [
+        {
+            label:'index',
+            type:'index',
+            width:80
+        },
+        { label: 'ID', prop: 'id' },
+        {
+            label: 'Name', prop: 'name',
+            render: ({row,index}) => {
+                return h('span', { style: { color: 'red' } }, row.name)
+            },
+            headerRender: ({column,index}) => {
+                return h('div', { style: { color: 'blue' } }, column.label)
+            }
+        },
+        {
+            label: 'Age',
+            prop: 'age',
+            slot: 'ageSlot',
+            headerSlot: 'ageHeaderSlot'
+        },
+    ]
+})
+const currentPage = ref(1)
+const pageSize = ref(30)
+watch(() => currentPage.value, (newVal, oldVal) => {
+    console.log('outcurrentPage', newVal, oldVal)
+})
+watch(() => pageSize.value, (newVal, oldVal) => {
+    console.log('outpageSize', newVal, oldVal)
+})
 </script>
 
 <template>
-  <h1>This is my website</h1>
-  <canvas ref="canvas" :width="500" :height="200"></canvas>
+    <base-table 
+    :tableData="tableData" 
+    :columns="columns" 
+    :options="options" 
+    :listeners="listeners"
+    v-model:currentPage="currentPage"
+    v-model:pageSize="pageSize"
+    >
+        <template #ageSlot="{ row, index }">
+            {{ row.age }}岁
+        </template>
+        <template #ageHeaderSlot="{ column }">
+            {{ column.label }}多大了
+        </template>
+    </base-table>
+    <div>
+        测试按钮
+        <el-button @click="pageSize=10">pagesize = 10</el-button>
+        <el-button @click="pageSize=30">pagesize = 30</el-button>
+    </div>
 </template>
-<style scoped>
-canvas {
-  border: 1px solid #000;
-}
-</style>
+<style scoped></style>
