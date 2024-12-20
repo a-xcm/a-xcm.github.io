@@ -28,6 +28,16 @@ const router = createRouter({
       component: () => import('../views/CanvasView.vue'),
     },
     {
+      path:'/animation',
+      name:'animation',
+      component: () => import('../views/Animation.vue')
+    },
+    {
+      path: '/linearGradient',
+      name: 'linearGradient',
+      component: () => import('../views/LinearGradient.vue')
+    },
+    {
       path: '/:pathMatch(.*)*',
       name: 'not-found',
       component: () => import('../views/NotFound.vue'),
