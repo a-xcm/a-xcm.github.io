@@ -38,6 +38,11 @@ const router = createRouter({
       component: () => import('../views/LinearGradient.vue')
     },
     {
+      path:'/transform3d',
+      name: 'transform3d',
+      component: () => import('../views/Transform3d.vue')
+    },
+    {
       path: '/:pathMatch(.*)*',
       name: 'not-found',
       component: () => import('../views/NotFound.vue'),

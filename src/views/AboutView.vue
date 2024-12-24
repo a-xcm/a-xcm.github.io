@@ -5,6 +5,7 @@
         <div>{{a+'-'+b}}</div>
       </template>
     </ModelTest>
+    <div>{{msg}}</div>
   </div>
 </template>
 
