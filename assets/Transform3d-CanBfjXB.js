@@ -1,0 +1,1 @@
+import{_ as e}from"./_plugin-vue_export-helper-DlAUqK2U.js";import{c as r,a as s,o as a}from"./index-BaYCFVC5.js";const t={},c={class:"card"};function d(n,o){return a(),r("div",c,o[0]||(o[0]=[s("div",{class:"box"},[s("div",{class:"fill"})],-1),s("p",null,"transform",-1)]))}const f=e(t,[["render",d],["__scopeId","data-v-e93d59d3"]]);export{f as default};
