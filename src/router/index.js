@@ -43,6 +43,11 @@ const router = createRouter({
       component: () => import('../views/Transform3d.vue')
     },
     {
+      path:'/other',
+      name: 'other',
+      component: () => import('../views/Other.vue')
+    },
+    {
       path: '/:pathMatch(.*)*',
       name: 'not-found',
       component: () => import('../views/NotFound.vue'),

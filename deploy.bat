@@ -10,13 +10,13 @@ cd dist
 echo 初始化Git 仓库
 git init
 git config user.name "a-xcm"
-git config user.email "a-xcm.com"
-git checkout -b page
+git config user.email "a-xcm"
+git checkout -b main
 git add -A
 git commit -m 'deploy'
 
 echo 推送到GitHub
-git push -f https://github.com/a-xcm/a-xcm.github.io.git page
+git push -f https://github.com/a-xcm/a-xcm.github.io.git main
 
 echo 完成
 ::pause
