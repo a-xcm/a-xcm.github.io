@@ -208,4 +208,190 @@ export function matchRace(n){
    return total
 }
 
-console.log(matchRace(14));
+//b数字插入到a数字的数  取最大
+function getaMax(a, b) {
+    // PLEASE DO NOT MODIFY THE FUNCTION SIGNATURE
+    // write code here
+    let numList = []
+    let astr = a.toString()
+    
+   
+    // 枚举法
+    for(let i = 0; i < astr.length; i++){
+        // 拆分字符串
+       let newNum = Number(astr.slice(0,i)+b+astr.slice(i))
+        numList.push(newNum)
+    }
+    numList.push(Number(a.toString()+b))
+
+
+    return Math.max(...numList);
+}
+
+
+//
+// getCombination(['a',23,45])
+
+
+// 满足一下算法
+// [1,23,45] => [124,125,134,135,]
+// [12,34,5] => [135,145,235,245]
+// [12,34] => [13,14,23,24]
+//  [1,2,3]=> [123]
+// [1,2,3,4]=> [1234]
+// [123,456]=> [14,15,16,24,25,26,34,35,36,45,46,56]
+
+export function generateCombinations(arr) {
+    // 辅助函数：从单个字符串中获取字符数组
+    function getChars(str) {
+        return str.toString().split('');
+    }
+
+    // 递归函数：生成基于已有组合和新元素的所有可能组合
+    function combine(prevCombos, newElement) {
+        let result = [];
+        for (let combo of prevCombos) {
+            for (let char of getChars(newElement)) {
+                result.push(combo + char);
+            }
+        }
+        return result;
+    }
+
+    // 如果数组为空，返回空数组
+    if (arr.length === 0) return [];
+
+    // 初始化组合为第一个元素的字符数组
+    let combinations = getChars(arr[0]);
+
+    // 对于数组中的每个后续元素，更新组合列表
+    for (let i = 1; i < arr.length; i++) {
+        combinations = combine(combinations, arr[i]);
+    }
+    //筛选出符合条件的组合 每个位数加上为偶数
+    combinations = combinations.filter(item=>{
+        let sum = 0;
+        for(let i = 0; i < item.length; i++){
+            sum += Number(item[i])
+        }
+        return sum % 2 === 0
+    })
+
+
+    return combinations.length;
+}
+// 将 'a' 变成 'bc'
+// 将 'b' 变成 'ca'
+// 将 'c' 变成 'ab'
+export function translocate(s,k) {
+  
+    let map = new Map()
+    map.set('a','bc')
+    map.set('b','ca')
+    map.set('c','ab')
+    let str = s
+   while(k > 0){
+        let newStr = ''
+        for(let i = 0; i < str.length; i++){
+            newStr += map.get(str[i])
+        }
+        str = newStr
+        k--
+    }
+    return str;
+}
+
+// 如果分数中有三个或以上不同的分数，返回其中第三大的分数。
+// 如果不同的分数只有两个或更少，那么小M将选择最大的分数作为他的目标。
+function getThird(n, nums) {
+    // PLEASE DO NOT MODIFY THE FUNCTION SIGNATURE
+    // write code here
+    const map = new Map()
+    //最大的
+    let max = Math.max(...nums)
+    nums.forEach(num => {
+        if (map.has(num)) {
+            map.set(num, map.get(num) + 1)
+        } else {
+            map.set(num, 1)
+        }
+    });
+    let num_M = max
+    if (map.size >= 3) {
+
+        let secondNums = nums.filter(i => i !== max);
+        let second = Math.max(...secondNums)
+
+        let thirdNums = secondNums.filter(i => i !== second)
+        let third = Math.max(...thirdNums)
+        num_M = third
+    }
+
+    return num_M;
+}
+
+// console.log(solution(3, [3, 2, 1]) === 1);
+// console.log(solution(2, [1, 2]) === 2);
+// console.log(solution(4, [2, 2, 3, 1]) === 1);
+
+// 获取数组交集 返回结果排序 大到小
+export function getIntersection(arr1, arr2) {
+    return arr1.filter(item => arr2.includes(item)).sort((a, b) => b - a);
+}
+
+//    合并区间
+//例 [[1,3],[6,8],[2,7]] =>[[1,8]]
+// [[2,3],[5,9]] =>[[2,3],[5,9]]
+// [[1,4],[2,3]] =>[[1,4]]
+function getInterval(arr){
+  // 处理边界条件
+  if (!Array.isArray(arr) || arr.length === 0) {
+    return [];
+}
+
+// 按照区间的起始位置排序
+let sortedArr = arr.sort((a, b) => a[0] - b[0]);
+
+let result = [];
+for (let i = 0; i < sortedArr.length; i++) {
+    let currentInterval = sortedArr[i];
+
+    // 如果结果数组为空或者当前区间不与最后一个结果区间重叠
+    if (result.length === 0 || result[result.length - 1][1] < currentInterval[0]) {
+        result.push(currentInterval);
+    } else {
+        // 合并区间
+        result[result.length - 1][1] = Math.max(result[result.length - 1][1], currentInterval[1]);
+    }
+}
+
+return result;
+  
+}
+
+// console.log(getInterval([[1,3],[6,8],[2,7],[1,7]]))
+// console.log(getInterval([[1,3],[4,8]]))
+
+// 将显示的数字乘以2；
+// 将显示的数字减去1。
+// 现在，计算器上显示的数字是 x，小M希望通过最少的操作次数，将数字变为 y。
+
+// 请你帮忙计算一下，最少需要多少次操作才能将数字从 x 变为 y。
+function getNumber(x,y){
+    let num = 0
+   while(y>x){
+    if(y%2===0){
+        y = y/2
+        num +=1
+    }else{
+        y = (y+1)
+        num += 1
+    }
+   }
+   if(y<=x){
+    num += Math.abs(y-x)
+    }
+return num
+}
+
+

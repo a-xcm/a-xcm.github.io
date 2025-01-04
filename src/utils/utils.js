@@ -186,6 +186,31 @@ function throttle(fn, delay) {
     }
 }
 
+/**
+ * 图片压缩
+ * @param {*} img 
+ * @param {*} maxWidth 
+ * @returns 
+ */
+function compressImage(img, maxWidth,) {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    let type = ''
+    img.onload = function (e) {
+        canvas.width = maxWidth;
+        canvas.height = img.height * (maxWidth / img.width);
+    };
+    return new Promise((resolve, reject) => {
+        canvas.toBlob(blob => {
+            if (blob) {
+                resolve(blob);
+            } else {
+                reject(new Error('Failed to compress image'));
+            }
+        }, 'image/png', 0.9);
+    });
+}
+
 export { 
     bubbleSort, 
     selectionSort, 
