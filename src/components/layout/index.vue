@@ -11,12 +11,15 @@ import Footer from './Footer.vue';
             <el-header class="fixed-header">
                 <Header />
             </el-header>
-            <el-main class="main-content">
-                <RouterView />
-            </el-main>
-            <el-footer class="footer">
-                <Footer />
-            </el-footer>
+            <el-container>
+                <el-aside class="left-aside">
+                    <Left />
+                </el-aside>
+                <el-main class="main-content">
+                 <slot/>
+                </el-main>
+            </el-container>
+           
         </el-container>
     </div>
 </template>
@@ -38,7 +41,7 @@ import Footer from './Footer.vue';
     width: var(--w-1200);
     min-width: var(--w-1200);
     padding: 20px;
-    margin: auto;
+    margin:0 auto;
 }
 .footer{
     display: flex;

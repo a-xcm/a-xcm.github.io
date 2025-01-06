@@ -13,13 +13,6 @@ watch(() => $route.path, (newVal) => {
 })
 </script>
 <template>
-    <!-- <el-menu :default-active="activePath" mode="horizontal"
-    class="menu"
-    >
-        <el-menu-item v-for="item in menuList" :key="item.path" :index="item.path">
-            <router-link :to="item.path">{{ item.name }}</router-link>
-        </el-menu-item>
-    </el-menu> -->
     <div class="header">
         header
     </div>
@@ -30,5 +23,7 @@ watch(() => $route.path, (newVal) => {
     width: var(--w-1200);
     min-width: var(--w-1200);
     margin: 0 auto;
+    margin-left: 300px;
+    text-align: center;
 }
 </style>
