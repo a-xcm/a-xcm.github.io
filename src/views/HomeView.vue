@@ -2,7 +2,7 @@
 </script>
 <template>
   <layout>
-    <div>homeview</div>
+    <div>hhhhhhh</div>
   </layout>
 </template>
 <style scoped>
