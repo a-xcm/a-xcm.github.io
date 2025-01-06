@@ -3,7 +3,9 @@ import { RouterView } from 'vue-router'
 import Header from './Header.vue'
 import Left from './Left.vue'
 import Right from './Right.vue';
-import Footer from './Footer.vue';
+import Footer from './Footer.vue'
+
+
 </script>
 <template>
     <div>
@@ -11,14 +13,9 @@ import Footer from './Footer.vue';
             <el-header class="fixed-header">
                 <Header />
             </el-header>
-            <el-container>
-                <el-aside class="left-aside">
-                    <Left />
-                </el-aside>
-                <el-main class="main-content">
+            <el-main class="main-content">
                  <slot/>
                 </el-main>
-            </el-container>
            
         </el-container>
     </div>
@@ -42,6 +39,7 @@ import Footer from './Footer.vue';
     min-width: var(--w-1200);
     padding: 20px;
     margin:0 auto;
+    height: 1200px;
 }
 .footer{
     display: flex;
