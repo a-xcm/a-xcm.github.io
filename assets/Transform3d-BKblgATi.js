@@ -1,1 +1,0 @@
-import{_ as e,c as o,a as s,b as r}from"./index-dEzsoxEX.js";const c={},t={class:"card"};function n(d,a){return r(),o("div",t,a[0]||(a[0]=[s("div",{class:"box"},[s("div",{class:"fill"})],-1),s("p",null,"transform",-1)]))}const _=e(c,[["render",n],["__scopeId","data-v-783666ea"]]);export{_ as default};
