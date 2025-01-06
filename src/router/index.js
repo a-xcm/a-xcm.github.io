@@ -7,11 +7,18 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView,
+      redirect: '/home',
+      meta: { title: '首页' },
+    },
+    {
+      path: '/home',
+      name: 'home',
+      meta: { title: '首页' },
+      component: HomeView
     },
     {
       path: '/:pathMatch(.*)*',
-      name: 'not-found',
+      name: 'notFound',
       component: () => import('../views/NotFound.vue'),
     },
     ...routes

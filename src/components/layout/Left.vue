@@ -26,7 +26,7 @@ ul{
     height: calc(100vh - 60px);
     overflow-y: auto;
     border-right: 1px solid #ccc;
-    padding: 20px;
+    padding:10px 20px;
     li{
         padding: 10px 0;
     }

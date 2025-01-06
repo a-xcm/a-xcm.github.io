@@ -23,7 +23,9 @@ const draw = () => {
 onUnmounted(() => window.cancelAnimationFrame(draw))
 </script>
 <template>
-    <the-canvas :width="200" :height="200" @initCanvas="init"></the-canvas>
+     <layout>
+        <the-canvas :width="200" :height="200" @initCanvas="init"></the-canvas>
+    </layout>
 </template>
 <style scoped>
 </style>

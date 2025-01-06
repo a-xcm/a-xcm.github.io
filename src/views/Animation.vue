@@ -35,8 +35,10 @@ const animation = () => {
 
 </script>
 <template>
+  <layout>
     <div>Animation</div>
     <div ref="container"></div>
+  </layout>
 </template>
 <style scoped>
 

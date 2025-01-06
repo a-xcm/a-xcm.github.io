@@ -1,27 +1,30 @@
 <script setup></script>
 <template>
-   <div class="card">
-    <div class="box">
-        <div class="fill">
+    <layout>
+        <div class="card">
+            <div class="box">
+                <div class="fill">
+                </div>
+            </div>
+            <p>transform</p>
         </div>
-    </div>
-    <p>transform</p>
-   </div>
-   
+    </layout>
 </template>
 <style scoped>
-.card{
+.card {
     margin: 10px;
     background: #fff;
     width: 200px;
     padding: 30px;
-    box-shadow: 0 3px 5px  #ddd;
+    box-shadow: 0 3px 5px #ddd;
 }
-.card p{
+
+.card p {
     padding: 25px 0 0;
     text-align: center
 }
-.box{
+
+.box {
     width: 100px;
     height: 100px;
     margin: auto;
@@ -30,16 +33,18 @@
     box-shadow: 0 0 5px #ccc inset;
     perspective: 100px;
 }
+
 .card .box .fill {
-  width: 100px;
-  height: 100px;
-  position: relative;
-  background: #03A9F4;
-  opacity: .5;
-  box-shadow: 0 0 5px #ccc;
-  -webkit-transition: 0.3s;
-  transition: 0.3s;
+    width: 100px;
+    height: 100px;
+    position: relative;
+    background: #03A9F4;
+    opacity: .5;
+    box-shadow: 0 0 5px #ccc;
+    -webkit-transition: 0.3s;
+    transition: 0.3s;
 }
+
 .card .box:hover .fill {
     /* transform: rotate(45deg); */
     /* transform: rotateX(45deg); */

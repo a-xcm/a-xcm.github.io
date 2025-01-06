@@ -4,7 +4,6 @@
 </template>
 <style scoped>
 .footer-box{
-    min-width: 1200px;
     margin: 0 auto;
 }
 </style>

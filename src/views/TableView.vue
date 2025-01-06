@@ -52,7 +52,8 @@ watch(() => pageSize.value, (newVal, oldVal) => {
 </script>
 
 <template>
-    <base-table 
+    <layout>
+        <base-table 
     :tableData="tableData" 
     :columns="columns" 
     :options="options" 
@@ -68,9 +69,10 @@ watch(() => pageSize.value, (newVal, oldVal) => {
         </template>
     </base-table>
     <div>
-        测试按钮
         <el-button @click="pageSize=10">pagesize = 10</el-button>
         <el-button @click="pageSize=30">pagesize = 30</el-button>
     </div>
+    </layout>
+   
 </template>
 <style scoped></style>
