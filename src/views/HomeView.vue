@@ -17,6 +17,7 @@ onMounted(()=>{
 
 </script>
 <template>
+  <div>HomeView</div>
 </template>
 <style scoped>
 </style>

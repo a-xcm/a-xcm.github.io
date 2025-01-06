@@ -395,3 +395,36 @@ return num
 }
 
 
+// 使用正则从字符串中获取数字
+function getNumber1(str) {
+    // 使用正则表达式匹配数字
+    const regex = /\d+/g;
+    const matches = str.match(regex);
+    if (!matches) {
+        return 0;
+    }
+   
+    // 将匹配到的数字转换为整数数组
+    const numbers = matches.map(Number);
+    //数组去重
+    const uniqueNumbers = [...new Set(numbers)];
+
+   
+
+    return uniqueNumbers.length;
+}
+
+function getNumm(num,sums) {
+    let totalSums = 0
+    for(let i = 0; i < sums.length; i++){
+        totalSums += sums[i]
+    }
+    console.log("全部总和",totalSums)
+    let totallnum = totalSums / 2
+    console.log("数字总和",totallnum)
+    // 平均数
+    let avg = totallnum / num
+    console.log("平均数",avg)
+}
+
+getNumm(3,[1269, 1160, 1663])
