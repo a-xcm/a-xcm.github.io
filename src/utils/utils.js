@@ -122,37 +122,8 @@ function quickSort(arr){
     return arr
 }
 
-/**
- * 斐波拉契数列
- * @param {*} n 
- * @returns 
- */
-function fib(n) {
-    let dp = [0, 1, 1];
-    for (let i = 3; i <= n; i++) {
 
-        // 当前值等于前两个值之和
-        dp[i] = dp[i - 1] + dp[i - 2];
-    }
-    return dp[n];
-}
 
-// 正在爬楼梯, 需要n阶才能到达楼顶
-// 每次只能爬 1 或者 2 个台阶, 有多少中不同的方法可以到达楼顶
-var climbStairs = function (n) {
-    if (n < 2) return 1
-
-    let dp0 = 1;
-    let dp1 = 1
-
-    for (let i = 2; i <= n; i++) {
-        [dp0, dp1] = [dp1, dp1 + dp0]
-    }
-
-    return dp1
-};
-
-console.log(climbStairs(2));
 
 /**
  * 防抖 高频率触发的事件只执行一次
@@ -210,14 +181,23 @@ function compressImage(img, maxWidth,) {
         }, 'image/png', 0.9);
     });
 }
+/**
+ * 深拷贝
+ */
+function cloneDeep(source){
+    const isArray = Array.isArray(source);
+    const isObject = typeof source === 'object' && source !== null;
+    
+}
+
 
 export { 
     bubbleSort, 
     selectionSort, 
     insertionSort, 
     mergeSort, 
-    quickSort, 
-    fib, 
+    quickSort,
     debounce, 
-    throttle 
+    throttle,
+    compressImage 
 }

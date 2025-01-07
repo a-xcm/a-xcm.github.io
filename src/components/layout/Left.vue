@@ -1,5 +1,7 @@
 <script setup>
 import { onMounted,ref } from 'vue';
+import { useRoute } from 'vue-router';
+const currentRoute = useRoute()
 const routes =ref([]);
 onMounted(()=>{
     const file = import.meta.glob('../../views/*.vue')
@@ -11,13 +13,13 @@ onMounted(()=>{
             component: file[path].default
         })
     }
-    console.log(routes.value)
 })
+
 </script>
 <template>
     <ul>
         <li v-for="item in routes"> 
-            <router-link :to="item.path">{{item.name}}</router-link>
+            <router-link :to="item.path" :class="{'active':currentRoute.name===item.name}">{{item.name}}</router-link>
         </li>
     </ul>
 </template>
@@ -28,7 +30,13 @@ ul{
     border-right: 1px solid #ccc;
     padding:10px 20px;
     li{
+        font-size: 14px;
         padding: 10px 0;
+        .active{
+            color: #409eff;
+            font-weight: bold;
+            border-bottom: 1px solid #409eff;
+        }
     }
 }
 </style>

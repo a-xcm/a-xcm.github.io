@@ -414,17 +414,19 @@ function getNumber1(str) {
     return uniqueNumbers.length;
 }
 
-function getNumm(num,sums) {
-    let totalSums = 0
-    for(let i = 0; i < sums.length; i++){
-        totalSums += sums[i]
-    }
-    console.log("全部总和",totalSums)
-    let totallnum = totalSums / 2
-    console.log("数字总和",totallnum)
-    // 平均数
-    let avg = totallnum / num
-    console.log("平均数",avg)
-}
 
-getNumm(3,[1269, 1160, 1663])
+
+/**
+ * 斐波拉契数列
+ * @param {*} n 
+ * @returns 
+ */
+function fib(n) {
+    let dp = [0, 1, 1];
+    for (let i = 3; i <= n; i++) {
+
+        // 当前值等于前两个值之和
+        dp[i] = dp[i - 1] + dp[i - 2];
+    }
+    return dp[n];
+}
