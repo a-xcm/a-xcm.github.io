@@ -1,0 +1,1 @@
+import{_ as e,o as t,c as r,w as c,r as n,a}from"./index-030GSE4i.js";const l={};function d(f,o){const s=n("layout");return t(),r(s,null,{default:c(()=>o[0]||(o[0]=[a("div",{class:"card"},[a("div",{class:"box"},[a("div",{class:"fill"})]),a("p",null,"transform")],-1)])),_:1})}const i=e(l,[["render",d],["__scopeId","data-v-caff63ee"]]);export{i as default};
