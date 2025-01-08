@@ -24,7 +24,7 @@ export default function useCanvas() {
         ctx.strokeStyle = color;
         ctx.lineWidth = lineWidth;
         ctx.stroke();
-        
+
         return ctx;
     }
 
@@ -39,7 +39,7 @@ export default function useCanvas() {
         ctx.arc(x, y, r, 0, 2 * Math.PI, false);
         ctx.fillStyle = color;
         ctx.fill();
-        
+
         return ctx;
     }
     /**
@@ -47,14 +47,14 @@ export default function useCanvas() {
      * @param {*} ctx 
      * @param {*} param1 
      */
-    const drawCircle2 = (ctx, { x = 0, y = 0, r = 0, color = 'black',lineWidth = 1 } = {}) => {
+    const drawCircle2 = (ctx, { x = 0, y = 0, r = 0, color = 'black', lineWidth = 1 } = {}) => {
         ctx = validateContext(ctx);
         ctx.beginPath();
         ctx.lineWidth = lineWidth;
         ctx.arc(x, y, r, 0, 2 * Math.PI, false);
         ctx.strokeStyle = color;
         ctx.stroke();
-        
+
         return ctx;
     }
     /**
@@ -68,7 +68,7 @@ export default function useCanvas() {
         ctx.rect(x, y, w, h);
         ctx.fillStyle = color;
         ctx.fill();
-        
+
         return ctx;
     }
 
@@ -85,7 +85,7 @@ export default function useCanvas() {
         ctx.font = `${fontSize}px ${fontFamily}`;
         ctx.fillStyle = color;
         ctx.fillText(text, x, y);
-        
+
         return ctx;
     }
     /**
@@ -114,7 +114,7 @@ export default function useCanvas() {
             throw new Error('Invalid or incomplete image');
         }
         ctx.drawImage(img, x, y, w, h);
-        
+
         return ctx;
     }
 
@@ -129,7 +129,7 @@ export default function useCanvas() {
         ctx.rect(0, 0, ctx.canvas.width, ctx.canvas.height);
         ctx.fillStyle = color;
         ctx.fill();
-        
+
         return ctx;
     }
 
@@ -140,9 +140,19 @@ export default function useCanvas() {
     const clearCanvas = (ctx) => {
         ctx = validateContext(ctx);
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-        
+
         return ctx;
     }
 
-    return { drawLine, drawCircle,drawCircle2, drawRect, drawText,drawText2, drawImage, drawBackground, clearCanvas };
+    return {
+        drawLine,
+        drawCircle,
+        drawCircle2,
+        drawRect,
+        drawText,
+        drawText2,
+        drawImage,
+        drawBackground,
+        clearCanvas
+    };
 }
