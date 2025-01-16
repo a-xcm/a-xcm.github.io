@@ -117,7 +117,7 @@ export default function useCanvas() {
 
         return ctx;
     }
-
+    
     /**
      * 绘制背景
      * @param {*} ctx 
@@ -132,7 +132,22 @@ export default function useCanvas() {
 
         return ctx;
     }
-
+    // 动画
+    const animate = (ctx, duration = 1000, callback ) => {
+        ctx = validateContext(ctx);
+        let startTime = new Date().getTime();
+        const animateFrame = () => {
+            const nowTime = new Date().getTime();
+            if (nowTime - startTime < duration) {
+              return requestAnimationFrame(animateFrame);
+            }else{
+                startTime = nowTime;
+                callback && callback();
+                requestAnimationFrame(animateFrame);
+            }
+        }
+        animateFrame();
+    }
     /**
      * 清除画布
      * @param {*} ctx 
@@ -153,6 +168,7 @@ export default function useCanvas() {
         drawText2,
         drawImage,
         drawBackground,
-        clearCanvas
+        clearCanvas,
+        animate
     };
 }

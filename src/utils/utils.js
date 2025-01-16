@@ -187,7 +187,14 @@ function compressImage(img, maxWidth,) {
 function cloneDeep(source){
     const isArray = Array.isArray(source);
     const isObject = typeof source === 'object' && source !== null;
-    
+    if(isArray || isObject){
+        const target = isArray ? [] : {};
+        for(let key in source){
+            target[key] = cloneDeep(source[key]);
+        }
+        return target;
+    }
+    return source;
 }
 
 

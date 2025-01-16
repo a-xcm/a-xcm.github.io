@@ -13,7 +13,7 @@ const draw = () => {
     CTX.value.fillStyle = 'red'
     CTX.value.fillText(number.value, 10, 50)
     number.value++
-    if(number.value > 100){
+    if(number.value > 99){
         number.value = 0
         window.cancelAnimationFrame(draw)
         return
