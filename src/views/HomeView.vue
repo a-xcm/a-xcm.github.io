@@ -1,5 +1,5 @@
 <script setup>
-//获取全部路由
+
 
 </script>
 <template>
