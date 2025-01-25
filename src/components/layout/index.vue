@@ -1,7 +1,5 @@
 <script setup>
 import Header from './Header.vue'
-import Left from './Left.vue'
-import Right from './Right.vue';
 import Footer from './Footer.vue'
 </script>
 <template>
@@ -10,15 +8,10 @@ import Footer from './Footer.vue'
             <el-header class="fixed-header">
                 <Header />
             </el-header>
-            <el-container>
-                <el-aside width="200px" class="left-aside">
-                    <Left />
-                </el-aside>
-                <el-main class="main-content">
+            <el-main class="main-content">
                  <slot/>
-            </el-main>
-            </el-container>
-            
+                 <el-backtop :right="100" :bottom="100" />
+            </el-main>            
            <el-footer class="footer">
                <Footer />
            </el-footer>
@@ -34,11 +27,9 @@ import Footer from './Footer.vue'
     border-bottom: 1px solid var(--color-border);
     display: flex;
     align-items: center;
-}
-.main-content{
-    min-width:calc(var(--w-1200) - 200px) ;
-    padding: 20px;
-    margin:0 auto;
+    position: sticky;
+    top: 0;
+    box-shadow: var(--box-shadow);
 }
 .footer{
     min-width: var(--w-1200);

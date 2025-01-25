@@ -430,3 +430,21 @@ function fib(n) {
     }
     return dp[n];
 }
+
+
+/**
+ * @param {number[]} piles
+ * @return {number}
+ */
+var maxCoins = function(piles) {
+    const sort= piles.sort((a,b)=>a-b)
+    console.log(sort)
+    let n = piles.length / 3;
+    let sum = 0
+    for(let i=n;i<sort.length;i=i+2){
+        sum = sum + sort[i]
+    }
+    return sum
+};
+const piles=  [9,5,6,8,10,1,4,10,7]
+console.log(maxCoins(piles))

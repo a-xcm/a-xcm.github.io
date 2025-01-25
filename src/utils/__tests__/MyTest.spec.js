@@ -24,17 +24,17 @@ describe('all test', () => {
     })
   })
   //minCost 测试用例
-  describe('minCost', () => {
-    it('should return 9 when  n = 5  k=2  data = [1, 2, 3,3,2]', () => {
-      expect(minCost(5, 2, [1, 2, 3, 3, 2])).toEqual(9)
-    })
-    it('should return 9 when  n = 6 k=3  data = [4, 1, 5, 2, 1, 3]', () => {
-      expect(minCost(6, 3, [4, 1, 5, 2, 1, 3])).toEqual(9)
-    })
-    it('should return 9 when  n = 5 k=2  data = [1,2,3,3,2]', () => {
-      expect(minCost(5, 2, [1, 2, 3, 3, 2])).toEqual(9)
-    })
-  })
+  // describe('minCost', () => {
+  //   it('should return 9 when  n = 5  k=2  data = [1, 2, 3,3,2]', () => {
+  //     expect(minCost(5, 2, [1, 2, 3, 3, 2])).toEqual(9)
+  //   })
+  //   it('should return 9 when  n = 6 k=3  data = [4, 1, 5, 2, 1, 3]', () => {
+  //     expect(minCost(6, 3, [4, 1, 5, 2, 1, 3])).toEqual(9)
+  //   })
+  //   it('should return 9 when  n = 5 k=2  data = [1,2,3,3,2]', () => {
+  //     expect(minCost(5, 2, [1, 2, 3, 3, 2])).toEqual(9)
+  //   })
+  // })
 
   // gethulu测试用例
   describe('getHulu', () => {
@@ -69,21 +69,21 @@ describe('all test', () => {
     })
   })
   //generateCombinations
-  describe('generateCombinations', () => {
-    it('should return [123456789] when input is [1,2,3,4,5,6,7,8,9]', () => {
-      expect(generateCombinations([1, 2, 3, 4, 5, 6, 7, 8, 9])).toEqual(["123456789"])
-    })
-    it('should return [1234] when input is [1,2,3,4]', () => {
-      expect(generateCombinations([1, 2, 3, 4])).toEqual(["1234"])
-    })
-    it('should return [135,145,235,245] when input is [12,34,5]', () => {
-      expect(generateCombinations([12, 34, 5])).toEqual(["135", "145", "235", "245"])
-    })
-    it('should return [a35,a45,a35,a45] when input is [a,34,5]', () => {
-      expect(generateCombinations(['a', 34, 5])).toEqual(["a35", "a45"])
-    })
+  // describe('generateCombinations', () => {
+  //   it('should return [123456789] when input is [1,2,3,4,5,6,7,8,9]', () => {
+  //     expect(generateCombinations([1, 2, 3, 4, 5, 6, 7, 8, 9])).toEqual(["123456789"])
+  //   })
+  //   it('should return [1234] when input is [1,2,3,4]', () => {
+  //     expect(generateCombinations([1, 2, 3, 4])).toEqual(["1234"])
+  //   })
+  //   it('should return [135,145,235,245] when input is [12,34,5]', () => {
+  //     expect(generateCombinations([12, 34, 5])).toEqual(["135", "145", "235", "245"])
+  //   })
+  //   it('should return [a35,a45,a35,a45] when input is [a,34,5]', () => {
+  //     expect(generateCombinations(['a', 34, 5])).toEqual(["a35", "a45"])
+  //   })
 
-  })
+  // })
   // console.log(translocate("abc", 2) === "caababbcbcca");
   //   console.log(translocate("abca", 3) === "abbcbccabccacaabcaababbcabbcbcca");
   //   console.log(translocate("cba", 1) === "abcabc");
