@@ -100,7 +100,7 @@ const _listeners = computed(()=>{
 const _paginationConfig = computed(()=>{
     const config = {
         layout:'prev, pager, next, jumper, ->, sizes, total',
-        total:100,
+        total:0,
         background:true,
         hideOnSinglePage:true,
         pagerCount:5,

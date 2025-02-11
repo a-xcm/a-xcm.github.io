@@ -1,5 +1,4 @@
 import { createRouter, createWebHashHistory  } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 import routes from './route'
 const router = createRouter({
   history: createWebHashHistory (import.meta.env.BASE_URL),
@@ -9,12 +8,6 @@ const router = createRouter({
       name: '',
       redirect: '/home',
       meta: { title: '首页' },
-    },
-    {
-      path: '/home',
-      name: 'home',
-      meta: { title: '首页' },
-      component: HomeView
     },
     {
       path: '/:pathMatch(.*)*',
