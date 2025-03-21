@@ -1,11 +1,11 @@
 <template>
     <div class="scanner-container">
         <video ref="video" class="scanner-video" autoplay playsinline></video>
-        <div class="qr-scanner">
+        <!-- <div class="qr-scanner">
             <div class="box">
                 <div class="line"> </div>
             </div>
-        </div>
+        </div> -->
         <button @click="startScanner">启动扫码</button>
     </div>
 </template>
