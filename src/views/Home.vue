@@ -6,7 +6,8 @@ console.log(router.getRoutes())
 </script>
 <template>
   <layout>
-   <div class="home">1234</div>
+   <!-- scan -->
+   <router-link to="/scan"> 扫码</router-link>
   </layout>
 </template>
 <style scoped>
