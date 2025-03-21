@@ -1,1 +1,0 @@
-import{o as a,c as u,w as e,u as c,r as t,g as l,h as _}from"./index-E3LmepPl.js";const f={__name:"Home",setup(p){const n=c();return console.log(n.getRoutes()),(m,o)=>{const r=t("router-link"),s=t("layout");return a(),u(s,null,{default:e(()=>[l(r,{to:"/scan"},{default:e(()=>o[0]||(o[0]=[_(" 扫码")])),_:1})]),_:1})}}};export{f as default};
