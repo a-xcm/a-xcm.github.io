@@ -17,12 +17,15 @@
         try {
           const codeReader = new BrowserMultiFormatReader();
           const devices = await codeReader.listVideoInputDevices();
-  
+          const rearCamera = devices.find(device => device.label.toLowerCase().includes('back'));
           if (devices.length === 0) {
             alert('未找到摄像头设备');
             return;
           }
-  
+          if (!rearCamera) {
+            alert('未找到后置摄像头');
+            return;
+          }
           const stream = await navigator.mediaDevices.getUserMedia({
             video: { facingMode: 'environment' }
           });
@@ -31,7 +34,7 @@
           await video.value.play();
   
           codeReader.decodeFromVideoDevice(
-            devices[0].deviceId,
+            rearCamera.deviceId ||  devices[0].deviceId,
             video.value,
             (result, error) => {
               if (result) alert('扫码结果: ' + result.text);
