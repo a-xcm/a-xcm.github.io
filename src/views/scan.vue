@@ -26,12 +26,12 @@
             alert('未找到后置摄像头');
             return;
           }
-          const stream = await navigator.mediaDevices.getUserMedia({
-            video: { facingMode: 'environment' }
-          });
+        //   const stream = await navigator.mediaDevices.getUserMedia({
+        //     video: { facingMode: 'environment' }
+        //   });
   
-          video.value.srcObject = stream;
-          await video.value.play();
+        //   video.value.srcObject = stream;
+        //   await video.value.play();
   
           codeReader.decodeFromVideoDevice(
             rearCamera.deviceId ||  devices[0].deviceId,
