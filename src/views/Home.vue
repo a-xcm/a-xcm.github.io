@@ -7,7 +7,7 @@ console.log(router.getRoutes())
 <template>
   <layout>
    <!-- scan -->
-   <router-link to="/scan"> 扫码</router-link>
+   
   </layout>
 </template>
 <style scoped>

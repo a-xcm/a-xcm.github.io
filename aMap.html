@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>外卖距离跟踪（修正版）</title>
+    <style>
+        #mapContainer {
+            width: 100%;
+            height: 400px;
+        }
+        #infoPanel {
+            padding: 20px;
+            font-family: Arial;
+        }
+    </style>
+</head>
+<body>
+    <div id="mapContainer"></div>
+    <div id="infoPanel">
+        <h3>配送信息</h3>
+        <p>实时距离：<span id="distance">计算中...</span></p>
+        <p>预计到达时间：<span id="time">计算中...</span></p>
+    </div>
+
+    <script src="https://webapi.amap.com/maps?v=2.0&key=b7c696224ad9754046600f0580ecf4e3"></script>
+    <script>
+        window._AMapSecurityConfig = {
+        securityJsCode: "e8b94e47467f32ed42df65b071314bd4",
+        };
+        // 初始化地图和插件
+        AMap.plugin(['AMap.Driving'], function() {
+            var map = new AMap.Map('mapContainer', {
+                zoom: 15,
+                center: [116.397428, 39.90923]
+            });
+
+            // 模拟数据
+            var customerPos = [116.397428, 39.90923]; // 顾客位置
+            var riderPos = [116.387428, 39.91923];    // 骑手位置
+
+            // 创建标记
+            var riderMarker = new AMap.Marker({
+                position: riderPos,
+                icon: 'https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png',
+                map: map
+            });
+
+            var customerMarker = new AMap.Marker({
+                position: customerPos,
+                icon: 'https://webapi.amap.com/theme/v1.3/markers/n/mark_r.png',
+                map: map
+            });
+
+            // 路径规划服务（修正策略参数）
+            var driving = new AMap.Driving({
+                map: map,
+                policy: AMap.DrivingPolicy.LEAST_TIME
+            });
+
+            function updateInfo() {
+                // 计算直线距离
+                var directDistance = AMap.GeometryUtil.distance(riderPos, customerPos);
+                console.log(directDistance )
+                // 路径规划获取实际路线
+                driving.search(riderPos, customerPos, (status, result) => {
+	 console.log(status,result);
+                    if (status === 'complete') {
+                        const route = result.routes[0];
+                        const roadDistance = route.distance;  // 道路距离（米）
+                        const duration = route.duration;        // 预计时间（秒）
+
+                        document.getElementById('distance').innerHTML = 
+                            `${(roadDistance/1000).toFixed(1)}公里（实际道路）<br>
+                            ${(directDistance/1000).toFixed(1)}公里（直线）`;
+
+                        document.getElementById('time').innerHTML = 
+                            `${Math.ceil(duration/60)}分钟`;
+                    }
+                });
+            }
+
+            // 模拟骑手移动
+            setInterval(() => {
+                riderPos = [
+                    riderPos[0] + (customerPos[0] > riderPos[0] ? 0.0001 : -0.0001),
+                    riderPos[1] + (customerPos[1] > riderPos[1] ? 0.0001 : -0.0001)
+                ];
+                riderMarker.setPosition(riderPos);
+                updateInfo();
+            }, 2000);
+
+            updateInfo();
+        });
+    </script>
+</body>
+</html>
