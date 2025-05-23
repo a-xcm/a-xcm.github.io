@@ -1,0 +1,1 @@
+import{_ as o,o as r,e as t,a as n,F as s}from"./index-6QB7jilB.js";const a={},c={ref:""};function l(_,e){return r(),t(s,null,[e[0]||(e[0]=n("h1",null,"threeDeno",-1)),n("div",c,null,512)],64)}const d=o(a,[["render",l]]);export{d as default};

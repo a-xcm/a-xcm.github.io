@@ -1,0 +1,1 @@
+import{o as t,c as s,u as r,r as c}from"./index-6QB7jilB.js";const l={__name:"Home",setup(n){const o=r();return console.log(o.getRoutes()),(a,u)=>{const e=c("layout");return t(),s(e)}}};export{l as default};

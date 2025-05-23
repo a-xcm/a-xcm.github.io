@@ -1,0 +1,1 @@
+import{_ as e,c as n,o as a,w as s,r,a as c}from"./index-6QB7jilB.js";const l={};function _(u,o){const t=r("layout");return a(),n(t,null,{default:s(()=>o[0]||(o[0]=[c("div",{class:"container"},"Not Found",-1)])),_:1})}const f=e(l,[["render",_]]);export{f as default};
