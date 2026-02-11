@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/a-xcm/a-xcm.github.io#readme",
   "devDependencies": {
-    "vitepress": "^2.0.0-alpha.15"
+    "vitepress": "^1.0.0"
   },
   "dependencies": {
     "qrcode": "^1.5.4"
