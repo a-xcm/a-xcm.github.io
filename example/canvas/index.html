@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Canvas 示例</title>
+</head>
+<body>
+    <canvas id="canvas" width="500" height="500"></canvas>
+    <script>
+        // requestAnimationFrame 动画循环
+        function animate() {
+            // 获取 canvas 上下文
+            const canvas = document.getElementById("canvas");
+            const ctx = canvas.getContext("2d");
+            
+            // 清空画布
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // 绘制动画帧
+            // ...
+            // 获取当前时间
+            const currentTime = new Date().toLocaleTimeString();
+
+            // 绘制文字
+            ctx.font = "30px Arial";
+            ctx.fillStyle = "red";
+            ctx.fillText(currentTime, 100, 100);
+
+            // 循环调用 animate 函数
+            requestAnimationFrame(animate);
+        }
+        
+        // 启动动画循环
+        animate();
+    </script>
+</body>
+</html>
