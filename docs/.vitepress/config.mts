@@ -40,8 +40,12 @@ export default defineConfig({
           },
           {
             text: "其他",
-            link: "/其他/微信小程序H5判断",
+            link: "/其他/url参数解析",
             items: [
+              {
+                text: "url参数解析",
+                link: "/其他/url参数解析"
+              },
               {
                 text: "微信小程序H5判断",
                 link: "/其他/微信小程序H5判断"
