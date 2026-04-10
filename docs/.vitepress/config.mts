@@ -47,6 +47,14 @@ export default defineConfig({
                 link: "/其他/url参数解析"
               },
               {
+                text: "小程序跳转H5",
+                link: "/其他/小程序跳转H5"
+              },
+              {
+                text: "小程序预加载图片",
+                link: "/其他/小程序预加载图片"
+              },
+              {
                 text: "微信小程序H5判断",
                 link: "/其他/微信小程序H5判断"
               },
