@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI助手聊天</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .chat-container {
+            width: 100%;
+            max-width: 800px;
+            height: 80vh;
+            max-height: 600px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .model-selector {
+            display: flex;
+            align-items: center;
+        }
+
+        .model-selector label {
+            margin-right: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .model-selector select {
+            padding: 6px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 14px;
+            background: white;
+            cursor: pointer;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f8f9fa;
+        }
+
+        .message {
+            margin-bottom: 16px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message.ai {
+            justify-content: flex-start;
+        }
+
+        .message-content {
+            max-width: 70%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            line-height: 1.4;
+        }
+
+        .user .message-content {
+            background: #007bff;
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .ai .message-content {
+            background: white;
+            color: #333;
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .chat-input {
+            padding: 20px;
+            border-top: 1px solid #e9ecef;
+            background: white;
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid #ced4da;
+            border-radius: 24px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .chat-input input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+
+        .chat-input button {
+            padding: 0 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 24px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .chat-input button:hover {
+            background: #0069d9;
+        }
+
+        .chat-input button:active {
+            background: #005cbf;
+        }
+
+        .typing-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .typing-indicator span {
+            width: 8px;
+            height: 8px;
+            background: #6c757d;
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out both;
+        }
+
+        .typing-indicator span:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        @keyframes typing {
+            0%, 80%, 100% {
+                transform: scale(0);
+            }
+            40% {
+                transform: scale(1);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .chat-container {
+                height: 90vh;
+                max-height: none;
+            }
+
+            .message-content {
+                max-width: 85%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <div class="chat-title">AI助手</div>
+            <div class="model-selector">
+                <label for="model-select">模型:</label>
+                <select id="model-select">
+                    <option value="gpt-4">GPT-4</option>
+                    <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+                    <option value="claude-3">Claude 3</option>
+                    <option value="gemini-pro">Gemini Pro</option>
+                    <option value="llama-3">Llama 3</option>
+                    <option value="mistral">Mistral</option>
+                    <option value="falcon">Falcon</option>
+                    <option value="bloom">BLOOM</option>
+                </select>
+            </div>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <div class="message ai">
+                <div class="message-content">
+                    你好！我是AI助手，有什么可以帮助你的吗？
+                </div>
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="message-input" placeholder="输入消息..." onkeypress="if(event.key === 'Enter') sendMessage()">
+            <button onclick="sendMessage()">发送</button>
+        </div>
+    </div>
+
+    <script>
+        // 模拟AI回复
+        const modelResponses = {
+            "gpt-4": "我是GPT-4，由OpenAI开发的先进语言模型。",
+            "gpt-3.5-turbo": "我是GPT-3.5 Turbo，由OpenAI开发的快速响应模型。",
+            "claude-3": "我是Claude 3，由Anthropic开发的AI助手。",
+            "gemini-pro": "我是Gemini Pro，由Google开发的多模态AI。",
+            "llama-3": "我是Llama 3，由Meta开发的开源大语言模型。",
+            "mistral": "我是Mistral，由Mistral AI开发的高效语言模型。",
+            "falcon": "我是Falcon，由TII开发的开源大语言模型。",
+            "bloom": "我是BLOOM，由BigScience合作开发的开源大语言模型。"
+        };
+
+        // 发送消息
+        function sendMessage() {
+            const input = document.getElementById('message-input');
+            const message = input.value.trim();
+            
+            if (!message) return;
+
+            // 添加用户消息
+            addMessage('user', message);
+            input.value = '';
+
+            // 显示AI正在输入
+            const typingId = addTypingIndicator();
+
+            // 模拟AI回复延迟
+            setTimeout(() => {
+                // 移除输入指示器
+                removeTypingIndicator(typingId);
+                
+                // 获取当前选择的模型
+                const model = document.getElementById('model-select').value;
+                
+                // 生成回复
+                const response = generateResponse(message, model);
+                addMessage('ai', response);
+            }, 1000);
+        }
+
+        // 添加消息
+        function addMessage(type, content) {
+            const messagesContainer = document.getElementById('chat-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            messageDiv.innerHTML = `<div class="message-content">${content}</div>`;
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        // 添加输入指示器
+        function addTypingIndicator() {
+            const messagesContainer = document.getElementById('chat-messages');
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message ai';
+            typingDiv.id = 'typing-indicator';
+            typingDiv.innerHTML = `
+                <div class="message-content">
+                    <div class="typing-indicator">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            `;
+            messagesContainer.appendChild(typingDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            return 'typing-indicator';
+        }
+
+        // 移除输入指示器
+        function removeTypingIndicator(id) {
+            const typingDiv = document.getElementById(id);
+            if (typingDiv) {
+                typingDiv.remove();
+            }
+        }
+
+        // 生成回复
+        function generateResponse(message, model) {
+            // 基础回复
+            let baseResponse = modelResponses[model] || "我是一个AI助手，可以回答你的问题。";
+            
+            // 根据消息内容生成不同的回复
+            if (message.includes('你好') || message.includes('Hello') || message.includes('hi')) {
+                return baseResponse + " 你好！很高兴为你服务。";
+            } else if (message.includes('你是谁') || message.includes('what are you')) {
+                return baseResponse;
+            } else if (message.includes('模型') || message.includes('model')) {
+                return `当前使用的模型是 ${model}。` + baseResponse;
+            } else {
+                return baseResponse + " 我理解你的问题，这是一个模拟回复。在实际应用中，我会根据你的问题提供更详细的回答。";
+            }
+        }
+
+        // 模型切换时的处理
+        document.getElementById('model-select').addEventListener('change', function() {
+            const model = this.value;
+            addMessage('ai', `已切换到 ${model} 模型。${modelResponses[model]}`);
+        });
+    </script>
+</body>
+</html>

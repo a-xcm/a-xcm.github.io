@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>虚拟列表示例</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .virtual-list-container {
+            width: 100%;
+            height: 500px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow: auto;
+            position: relative;
+        }
+        
+        .virtual-list {
+            position: relative;
+            width: 100%;
+        }
+        
+        .virtual-item {
+            height: 50px;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+        
+        .virtual-item:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .info {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .controls {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        button {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+        
+        input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 150px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>虚拟列表示例</h1>
+        
+        <div class="controls">
+            <label>数据量:</label>
+            <input type="number" id="itemCount" value="10000" min="100" max="100000">
+            <button id="generateBtn">生成数据</button>
+        </div>
+        
+        <div class="virtual-list-container" id="listContainer">
+            <div class="virtual-list" id="virtualList"></div>
+        </div>
+        
+        <div class="info">
+            <p><strong>虚拟列表原理:</strong> 只渲染可视区域内的元素，通过计算滚动位置和偏移量来实现高效的滚动体验。</p>
+            <p>当前示例支持大数据量（10000+）的流畅滚动，相比传统列表渲染方式，大大减少了DOM元素数量，提高了性能。</p>
+        </div>
+    </div>
+    
+    <script>
+        class VirtualList {
+            constructor(container, options = {}) {
+                this.container = container;
+                this.listElement = container.querySelector('.virtual-list');
+                
+                this.options = {
+                    itemHeight: 50,
+                    buffer: 5,
+                    ...options
+                };
+                
+                this.items = [];
+                this.startIndex = 0;
+                this.endIndex = 0;
+                this.scrollTop = 0;
+                
+                this.init();
+            }
+            
+            init() {
+                this.container.addEventListener('scroll', this.handleScroll.bind(this));
+                this.update();
+            }
+            
+            setItems(items) {
+                this.items = items;
+                this.update();
+            }
+            
+            handleScroll() {
+                this.scrollTop = this.container.scrollTop;
+                this.update();
+            }
+            
+            update() {
+                const containerHeight = this.container.clientHeight;
+                const itemHeight = this.options.itemHeight;
+                const buffer = this.options.buffer;
+                
+                // 计算可见区域的起始和结束索引
+                const startIndex = Math.max(0, Math.floor(this.scrollTop / itemHeight) - buffer);
+                const endIndex = Math.min(
+                    this.items.length - 1,
+                    Math.ceil((this.scrollTop + containerHeight) / itemHeight) + buffer
+                );
+                
+                // 计算偏移量
+                const offsetTop = startIndex * itemHeight;
+                
+                // 更新DOM
+                this.renderItems(startIndex, endIndex, offsetTop);
+                
+                // 更新滚动高度
+                this.listElement.style.height = `${this.items.length * itemHeight}px`;
+            }
+            
+            renderItems(startIndex, endIndex, offsetTop) {
+                this.listElement.style.transform = `translateY(${offsetTop}px)`;
+                
+                let html = '';
+                for (let i = startIndex; i <= endIndex; i++) {
+                    html += this.renderItem(this.items[i], i);
+                }
+                
+                this.listElement.innerHTML = html;
+            }
+            
+            renderItem(item, index) {
+                return `
+                    <div class="virtual-item" data-index="${index}">
+                        ${item}
+                    </div>
+                `;
+            }
+        }
+        
+        // 初始化
+        const container = document.getElementById('listContainer');
+        const virtualList = new VirtualList(container);
+        
+        // 生成数据
+        function generateData(count) {
+            const data = [];
+            for (let i = 1; i <= count; i++) {
+                data.push(`项目 ${i} - 这是虚拟列表中的一个项目`);
+            }
+            return data;
+        }
+        
+        // 初始数据
+        virtualList.setItems(generateData(10000));
+        
+        // 事件监听
+        document.getElementById('generateBtn').addEventListener('click', function() {
+            const count = parseInt(document.getElementById('itemCount').value);
+            virtualList.setItems(generateData(count));
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>宠物管理系统</title>
+	<script src="./axios.min.js"></script>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+		body {
+			font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+			background-color: #f5f5f5;
+			padding: 20px;
+		}
+		.container {
+			max-width: 1200px;
+			margin: 0 auto;
+		}
+		h1 {
+			text-align: center;
+			color: #333;
+			margin-bottom: 30px;
+		}
+		.section {
+			background: #fff;
+			border-radius: 8px;
+			padding: 20px;
+			margin-bottom: 20px;
+			box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+		}
+		.section h2 {
+			color: #555;
+			margin-bottom: 15px;
+			font-size: 18px;
+			border-bottom: 2px solid #e0e0e0;
+			padding-bottom: 10px;
+		}
+		.form-group {
+			margin-bottom: 15px;
+		}
+		.form-group label {
+			display: block;
+			margin-bottom: 5px;
+			color: #666;
+			font-weight: 500;
+		}
+		.form-group input,
+		.form-group select {
+			width: 100%;
+			padding: 10px;
+			border: 1px solid #ddd;
+			border-radius: 4px;
+			font-size: 14px;
+		}
+		.btn {
+			padding: 8px 16px;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+			font-size: 14px;
+			transition: background-color 0.3s;
+			margin: 0 4px;
+		}
+		.btn-primary {
+			background-color: #1890ff;
+			color: white;
+		}
+		.btn-primary:hover {
+			background-color: #40a9ff;
+		}
+		.btn-danger {
+			background-color: #ff4d4f;
+			color: white;
+		}
+		.btn-danger:hover {
+			background-color: #ff7875;
+		}
+		.btn-success {
+			background-color: #52c41a;
+			color: white;
+		}
+		.btn-success:hover {
+			background-color: #73d13d;
+		}
+		.btn-group {
+			display: flex;
+			gap: 10px;
+			flex-wrap: wrap;
+			margin-bottom: 20px;
+		}
+		.result {
+			margin-top: 15px;
+			padding: 15px;
+			background-color: #f6ffed;
+			border: 1px solid #b7eb8f;
+			border-radius: 4px;
+			display: none;
+		}
+		.result.error {
+			background-color: #fff2f0;
+			border-color: #ffccc7;
+		}
+		.result-title {
+			font-weight: bold;
+			color: #333;
+			margin-bottom: 10px;
+		}
+		.result-content {
+			white-space: pre-wrap;
+			word-break: break-all;
+			font-family: 'Consolas', 'Monaco', monospace;
+			font-size: 13px;
+			color: #666;
+		}
+		.loading {
+			display: none;
+			text-align: center;
+			padding: 20px;
+			color: #999;
+		}
+		.grid-2 {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 15px;
+		}
+		@media (max-width: 768px) {
+			.grid-2 {
+				grid-template-columns: 1fr;
+			}
+		}
+		
+		/* 表格样式 */
+		.table-container {
+			overflow-x: auto;
+			margin-top: 20px;
+		}
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			font-size: 14px;
+		}
+		th, td {
+			padding: 12px;
+			text-align: left;
+			border-bottom: 1px solid #e8e8e8;
+		}
+		th {
+			background-color: #fafafa;
+			font-weight: 600;
+			color: #333;
+			white-space: nowrap;
+		}
+		tr:hover {
+			background-color: #f5f5f5;
+		}
+		.status {
+			display: inline-block;
+			padding: 2px 8px;
+			border-radius: 3px;
+			font-size: 12px;
+			font-weight: 500;
+		}
+		.status-available {
+			background: #f6ffed;
+			color: #52c41a;
+		}
+		.status-pending {
+			background: #fffbe6;
+			color: #faad14;
+		}
+		.status-sold {
+			background: #f0f0f0;
+			color: #999;
+		}
+		.actions {
+			white-space: nowrap;
+		}
+		
+		/* 模态框样式 */
+		.modal {
+			display: none;
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0,0,0,0.5);
+			z-index: 1000;
+			justify-content: center;
+			align-items: center;
+		}
+		.modal-content {
+			background: white;
+			padding: 20px;
+			border-radius: 8px;
+			width: 90%;
+			max-width: 500px;
+			box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+		}
+		.modal-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin-bottom: 20px;
+		}
+		.modal-header h3 {
+			color: #333;
+		}
+		.modal-close {
+			background: none;
+			border: none;
+			font-size: 20px;
+			cursor: pointer;
+			color: #999;
+		}
+		.modal-close:hover {
+			color: #333;
+		}
+		.modal-footer {
+			display: flex;
+			justify-content: flex-end;
+			gap: 10px;
+			margin-top: 20px;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h1>🐾 宠物管理系统</h1>
+
+		<!-- 操作栏 -->
+		<div class="section">
+			<h2>� 操作管理</h2>
+			<div class="grid-2">
+				<div class="form-group">
+					<label>状态筛选</label>
+					<select id="statusFilter">
+						<option value="">全部状态</option>
+						<option value="available">可售 (available)</option>
+						<option value="pending">待定 (pending)</option>
+						<option value="sold">已售 (sold)</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label>搜索</label>
+					<input type="text" id="searchInput" placeholder="搜索宠物名称...">
+				</div>
+			</div>
+			<div class="btn-group">
+				<button class="btn btn-primary" onclick="loadPets()">刷新列表</button>
+				<button class="btn btn-success" onclick="openAddModal()">添加宠物</button>
+			</div>
+			<div class="loading" id="listLoading">加载中...</div>
+		</div>
+
+		<!-- 宠物表格 -->
+		<div class="section">
+			<h2>📋 宠物列表</h2>
+			<div class="table-container">
+				<table id="petTable">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>名称</th>
+							<th>分组</th>
+							<th>状态</th>
+							<th>照片URL</th>
+							<th>标签</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody id="petTableBody">
+						<tr>
+							<td colspan="7" style="text-align: center; color: #999; padding: 40px;">
+								点击"刷新列表"加载数据
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<!-- 操作结果 -->
+		<div class="result" id="operationResult">
+			<div class="result-title">操作结果：</div>
+			<div class="result-content" id="operationResultContent"></div>
+		</div>
+	</div>
+
+	<!-- 添加宠物模态框 -->
+	<div class="modal" id="addModal">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3>➕ 添加宠物</h3>
+				<button class="modal-close" onclick="closeAddModal()">&times;</button>
+			</div>
+			<div class="grid-2">
+				<div class="form-group">
+					<label>宠物名称 *</label>
+					<input type="text" id="modalCreateName" placeholder="例如：Hello Kitty">
+				</div>
+				<div class="form-group">
+					<label>销售状态 *</label>
+					<select id="modalCreateStatus">
+						<option value="available">可售 (available)</option>
+						<option value="pending">待定 (pending)</option>
+						<option value="sold">已售 (sold)</option>
+					</select>
+				</div>
+			</div>
+			<div class="grid-2">
+				<div class="form-group">
+					<label>分组名称</label>
+					<input type="text" id="modalCreateCategory" placeholder="例如：Cat, Dog">
+				</div>
+				<div class="form-group">
+					<label>照片URL</label>
+					<input type="text" id="modalCreatePhotoUrl" placeholder="例如：http://example.com/photo.jpg">
+				</div>
+			</div>
+			<div class="form-group">
+				<label>标签</label>
+				<input type="text" id="modalCreateTags" placeholder="多个标签用逗号分隔，例如：Cat, Cute">
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-primary" onclick="closeAddModal()">取消</button>
+				<button class="btn btn-success" onclick="submitAddPet()">确定添加</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- 编辑宠物模态框 -->
+	<div class="modal" id="editModal">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3>✏️ 编辑宠物</h3>
+				<button class="modal-close" onclick="closeEditModal()">&times;</button>
+			</div>
+			<input type="hidden" id="modalEditId">
+			<div class="grid-2">
+				<div class="form-group">
+					<label>宠物名称</label>
+					<input type="text" id="modalEditName" placeholder="例如：Hello Kitty">
+				</div>
+				<div class="form-group">
+					<label>销售状态</label>
+					<select id="modalEditStatus">
+						<option value="">-- 不修改 --</option>
+						<option value="available">可售 (available)</option>
+						<option value="pending">待定 (pending)</option>
+						<option value="sold">已售 (sold)</option>
+					</select>
+				</div>
+			</div>
+			<div class="grid-2">
+				<div class="form-group">
+					<label>分组名称</label>
+					<input type="text" id="modalEditCategory" placeholder="例如：Cat, Dog">
+				</div>
+				<div class="form-group">
+					<label>照片URL</label>
+					<input type="text" id="modalEditPhotoUrl" placeholder="例如：http://example.com/photo.jpg">
+				</div>
+			</div>
+			<div class="form-group">
+				<label>标签</label>
+				<input type="text" id="modalEditTags" placeholder="多个标签用逗号分隔，例如：Cat, Cute">
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-primary" onclick="closeEditModal()">取消</button>
+				<button class="btn btn-success" onclick="submitEditPet()">确定修改</button>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		// API基础URL配置
+		const BASE_URL = 'http://127.0.0.1:4523/m1/6465578-6164514-default';
+
+		// 创建axios实例
+		const api = axios.create({
+			baseURL: BASE_URL,
+			timeout: 10000,
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+
+		// 显示结果
+		function showResult(content, isError = false) {
+			const resultEl = document.getElementById('operationResult');
+			const contentEl = document.getElementById('operationResultContent');
+			resultEl.style.display = 'block';
+			resultEl.className = 'result' + (isError ? ' error' : '');
+			contentEl.textContent = typeof content === 'object' ? JSON.stringify(content, null, 2) : content;
+			
+			// 3秒后自动隐藏
+			setTimeout(() => {
+				resultEl.style.display = 'none';
+			}, 3000);
+		}
+
+		// 显示/隐藏加载状态
+		function toggleLoading(show) {
+			document.getElementById('listLoading').style.display = show ? 'block' : 'none';
+		}
+
+		// 获取状态样式类名
+		function getStatusClass(status) {
+			return 'status-' + status;
+		}
+
+		// 渲染宠物表格
+		function renderPetTable(pets) {
+			const tbody = document.getElementById('petTableBody');
+			
+			if (!Array.isArray(pets) || pets.length === 0) {
+				tbody.innerHTML = `
+					<tr>
+						<td colspan="7" style="text-align: center; color: #999; padding: 40px;">
+							暂无数据
+						</td>
+					</tr>
+				`;
+				return;
+			}
+
+			tbody.innerHTML = pets.map(pet => {
+				const tags = pet.tags ? pet.tags.map(tag => tag.name).join(', ') : '无';
+				const photoUrls = pet.photoUrls ? pet.photoUrls.join(', ') : '无';
+				const category = pet.category ? pet.category.name : '未分类';
+				
+				return `
+					<tr data-id="${pet.id}">
+						<td>${pet.id}</td>
+						<td>${pet.name || '未命名'}</td>
+						<td>${category}</td>
+						<td><span class="status ${getStatusClass(pet.status)}">${pet.status}</span></td>
+						<td>${photoUrls}</td>
+						<td>${tags}</td>
+						<td class="actions">
+							<button class="btn btn-primary" onclick="editPet(${pet.id})"><strong>✏️</strong> 编辑</button>
+							<button class="btn btn-danger" onclick="deletePet(${pet.id})"><strong>🗑️</strong> 删除</button>
+						</td>
+					</tr>
+				`;
+			}).join('');
+		}
+
+		// 加载宠物列表
+		async function loadPets() {
+			const status = document.getElementById('statusFilter').value;
+			toggleLoading(true);
+
+			try {
+				let response;
+				if (status) {
+					response = await api.get('/pet/findByStatus', {
+						params: { status }
+					});
+				} else {
+					// 由于API限制，这里使用available状态作为默认
+					response = await api.get('/pet/findByStatus', {
+						params: { status: 'available' }
+					});
+				}
+				toggleLoading(false);
+				renderPetTable(response.data);
+				showResult('加载成功！');
+			} catch (error) {
+				toggleLoading(false);
+				const errorMsg = error.response ? error.response.data : error.message;
+				showResult({ error: errorMsg }, true);
+				renderPetTable([]);
+			}
+		}
+
+		// 打开添加模态框
+		function openAddModal() {
+			document.getElementById('modalCreateName').value = '';
+			document.getElementById('modalCreateStatus').value = 'available';
+			document.getElementById('modalCreateCategory').value = '';
+			document.getElementById('modalCreatePhotoUrl').value = '';
+			document.getElementById('modalCreateTags').value = '';
+			document.getElementById('addModal').style.display = 'flex';
+		}
+
+		// 关闭添加模态框
+		function closeAddModal() {
+			document.getElementById('addModal').style.display = 'none';
+		}
+
+		// 提交添加宠物
+		async function submitAddPet() {
+			const name = document.getElementById('modalCreateName').value.trim();
+			const status = document.getElementById('modalCreateStatus').value;
+			const categoryName = document.getElementById('modalCreateCategory').value.trim();
+			const photoUrl = document.getElementById('modalCreatePhotoUrl').value.trim();
+			const tagsInput = document.getElementById('modalCreateTags').value.trim();
+
+			if (!name) {
+				alert('请输入宠物名称');
+				return;
+			}
+
+			try {
+				// 构建请求体
+				const requestBody = {
+					name: name,
+					status: status,
+					photoUrls: photoUrl ? [photoUrl] : []
+				};
+
+				if (categoryName) {
+					requestBody.category = { name: categoryName };
+				}
+
+				if (tagsInput) {
+					requestBody.tags = tagsInput.split(',').map(tag => ({ name: tag.trim() }));
+				}
+
+				const response = await api.post('/pet', requestBody);
+				closeAddModal();
+				loadPets();
+				showResult('添加成功！');
+			} catch (error) {
+				const errorMsg = error.response ? error.response.data : error.message;
+				showResult({ error: errorMsg }, true);
+			}
+		}
+
+		// 编辑宠物
+		async function editPet(petId) {
+			try {
+				const response = await api.get(`/pet/${petId}`);
+				const pet = response.data;
+				
+				document.getElementById('modalEditId').value = pet.id;
+				document.getElementById('modalEditName').value = pet.name || '';
+				document.getElementById('modalEditStatus').value = '';
+				document.getElementById('modalEditCategory').value = pet.category ? pet.category.name : '';
+				document.getElementById('modalEditPhotoUrl').value = pet.photoUrls && pet.photoUrls.length > 0 ? pet.photoUrls[0] : '';
+				document.getElementById('modalEditTags').value = pet.tags ? pet.tags.map(tag => tag.name).join(', ') : '';
+				
+				document.getElementById('editModal').style.display = 'flex';
+			} catch (error) {
+				const errorMsg = error.response ? error.response.data : error.message;
+				showResult({ error: errorMsg }, true);
+			}
+		}
+
+		// 关闭编辑模态框
+		function closeEditModal() {
+			document.getElementById('editModal').style.display = 'none';
+		}
+
+		// 提交编辑宠物
+		async function submitEditPet() {
+			const petId = document.getElementById('modalEditId').value;
+			const name = document.getElementById('modalEditName').value.trim();
+			const status = document.getElementById('modalEditStatus').value;
+			const categoryName = document.getElementById('modalEditCategory').value.trim();
+			const photoUrl = document.getElementById('modalEditPhotoUrl').value.trim();
+			const tagsInput = document.getElementById('modalEditTags').value.trim();
+
+			if (!petId) {
+				alert('宠物ID不能为空');
+				return;
+			}
+
+			try {
+				// 构建请求体
+				const requestBody = {
+					id: parseInt(petId)
+				};
+
+				if (name) requestBody.name = name;
+				if (status) requestBody.status = status;
+				if (categoryName) requestBody.category = { name: categoryName };
+				if (photoUrl) requestBody.photoUrls = [photoUrl];
+				if (tagsInput) requestBody.tags = tagsInput.split(',').map(tag => ({ name: tag.trim() }));
+
+				const response = await api.put('/pet', requestBody);
+				closeEditModal();
+				loadPets();
+				showResult('修改成功！');
+			} catch (error) {
+				const errorMsg = error.response ? error.response.data : error.message;
+				showResult({ error: errorMsg }, true);
+			}
+		}
+
+		// 删除宠物
+		async function deletePet(petId) {
+			if (!confirm(`确定要删除ID为 ${petId} 的宠物吗？`)) {
+				return;
+			}
+
+			try {
+				const response = await api.delete(`/pet/${petId}`);
+				loadPets();
+				showResult('删除成功！');
+			} catch (error) {
+				const errorMsg = error.response ? error.response.data : error.message;
+				showResult({ error: errorMsg }, true);
+			}
+		}
+
+		// 搜索功能
+		document.getElementById('searchInput').addEventListener('input', function() {
+			const searchTerm = this.value.toLowerCase();
+			const rows = document.querySelectorAll('#petTableBody tr');
+			
+			rows.forEach(row => {
+				if (row.cells.length > 1) {
+					const name = row.cells[1].textContent.toLowerCase();
+					const category = row.cells[2].textContent.toLowerCase();
+					const tags = row.cells[5].textContent.toLowerCase();
+					
+					if (name.includes(searchTerm) || category.includes(searchTerm) || tags.includes(searchTerm)) {
+						row.style.display = '';
+					} else {
+						row.style.display = 'none';
+					}
+				}
+			});
+		});
+
+		// 状态筛选
+		document.getElementById('statusFilter').addEventListener('change', loadPets);
+
+		// 初始化加载数据
+		window.onload = function() {
+			loadPets();
+		};
+	</script>
+</body>
+</html>
