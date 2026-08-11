@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>vue-qr 直接使用版</title>
+
+  <!-- 1. 引入 Vue 2 -->
+  <script src="vue.min.js"></script>
+
+  <!-- 2. 引入 vue-qr（直接用，不用import） -->
+  <script src="vue-qr.min.js"></script>
+</head>
+<body>
+
+<div id="app">
+  <h3>vue-qr 直接使用</h3>
+  
+  <!-- 输入内容实时生成二维码 -->
+  <input v-model="text" placeholder="输入内容" style="width: 300px;padding: 8px;">
+
+  <!-- vue-qr 组件直接用！ -->
+  <vue-qr 
+    :text="text"
+    :logoScale="0" 
+    :size="285"
+  ></vue-qr>
+</div>
+
+<script>
+new Vue({
+  el: '#app',
+  data: {
+    text: 'VjAwMSvwsSjBnHcs0x9fQu38J13gkD+sJQuTWnLaMuF0xai99Ah2qBtWmp7YmC/Vd0Mmx/I='
+  }
+})
+</script>
+
+</body>
+</html>

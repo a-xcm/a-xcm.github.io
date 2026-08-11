@@ -1,0 +1,1 @@
+import{_ as i,o as a,c as n,ae as h}from"./chunks/framework.Dn7Y7LSn.js";const d=JSON.parse('{"title":"前端图片压缩方法","description":"","frontmatter":{},"headers":[],"relativePath":"其他/图片压缩.md","filePath":"其他/图片压缩.md"}'),k={name:"其他/图片压缩.md"};function l(p,s,t,e,E,r){return a(),n("div",null,[...s[0]||(s[0]=[h("",16)])])}const y=i(k,[["render",l]]);export{d as __pageData,y as default};
