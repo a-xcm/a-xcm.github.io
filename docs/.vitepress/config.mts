@@ -30,8 +30,12 @@ export default defineConfig({
           },
           {
             text: "三方js",
-            link: "/三方js/二维码生成与解析",
+            link: "/三方js/pdfJs的使用",
             items: [
+              {
+                text: "pdfJs的使用",
+                link: "/三方js/pdfJs的使用"
+              },
               {
                 text: "二维码生成与解析",
                 link: "/三方js/二维码生成与解析"
@@ -45,6 +49,10 @@ export default defineConfig({
               {
                 text: "url参数解析",
                 link: "/其他/url参数解析"
+              },
+              {
+                text: "图片压缩",
+                link: "/其他/图片压缩"
               },
               {
                 text: "小程序跳转H5",
